@@ -21,7 +21,7 @@ Also having avatars is nice, so bioguides.congress.gov and github.com/unitedstat
 to create avatar images file structure.  The same script that does this also sets the avatar on the
 mastodon accounts.
 
-1. Generate ruby code for accounts and posts using [stonkcritter](https://github.com/penguinpowernz/stonkcritter]
+1. Generate ruby code for accounts and posts using [stonkcritter](https://github.com/penguinpowernz/stonkcritter)
 1. Downloads "BioGuide" profiles
 1. Downloads images of US Politicians for account avatars
 1. Convert images to be more easily accessible by the Mastodon avatar system

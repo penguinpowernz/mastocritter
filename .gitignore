@@ -1,0 +1,7 @@
+images/*
+public/*
+BioguideProfiles/*
+*.zip
+*.jpg
+*.jpeg
+generated/*

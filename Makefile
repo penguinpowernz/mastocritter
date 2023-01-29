@@ -16,3 +16,17 @@ dp:
 
 clean:
 	rm -fr public generated BioguideProfiles.zip BioguideProfiles images
+
+get_stonks:
+	mkdir -p public generated
+	lstrades -d > stonks.json
+	lstrades -m stonks.json > generated/profiles.rb
+
+load:
+	docker-compose exec web /critters/bin/load.rb
+
+start:
+	docker-compose up -d
+
+status:
+	docker-compose ps

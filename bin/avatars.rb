@@ -4,7 +4,7 @@ require 'json'
 
 image_base = "images/congress/450x550"
 target = ENV["TARGET"]
-target = "./public" if target.nil?
+target = "./avatars" if target.nil?
 
 Dir["BioguideProfiles/*.json"].each do |fn|    
     profile = JSON.parse(File.read(fn))
@@ -23,14 +23,13 @@ Dir["BioguideProfiles/*.json"].each do |fn|
     srcimg = "#{image_base}/#{id}.jpg"
     next unless File.exist? srcimg
 
-    s = File.size(srcimg)
  #   system("ln -s ../#{srcimg} #{target}/#{name}.jpg")
     system("cp -l #{srcimg} #{target}/#{name}.jpg")
 
-    print %q[Account.where("display_name LIKE '%%%s%%%s%%'").first.tap {|a|] % [fname, lname]
-    print %q[ a.avatar_file_name = Rails.root.join("public", "avatars", "original", "%s.jpg");] % [name]
-    print %q[ a.content_type = "image/jpeg";]
-    print %q[ a.avatar_file_size = %d;] % [s]
-    print %q[ a.avatar_updated_at = DateTime.now;]
-    puts %q[}.save rescue nil]
+    print %q[Account.where("display_name LIKE '%%%s%%%s%%'").first.update(avatar: ActionDispatch::Http::UploadedFile.new(] % [fname, lname]
+    print %q[  tempfile: File.open("/opt/mastodon/public/avatars/original/%s.jpg"),] % [name]
+    print %q[  filename: "%s.jpg",] % [name]
+    print %q[  type: "image/jpeg",]
+    print %q[  head: {}]
+    puts %q[)) rescue nil]
 end

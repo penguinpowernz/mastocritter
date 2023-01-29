@@ -2,28 +2,30 @@
 all: profiles avatars
 
 avatars: get_images
-	mkdir -p public generated
-	bin/main.rb > generated/avatars.rb
+	mkdir -p avatars generated
+	bin/avatars.rb > generated/avatars.rb
 
 get_images:
-	git clone https://github.com/unitedstates/images
+	git clone https://github.com/unitedstates/images || true
 
 download_profiles: dp
 profiles: dp
 dp:
-	wget https://bioguide.congress.gov/bioguide/data/BioguideProfiles.zip
-	unzip BioguideProfiles.zip
+	wget -nc https://bioguide.congress.gov/bioguide/data/BioguideProfiles.zip
+	unzip BioguideProfiles.zip -d BioguideProfiles
 
 clean:
-	rm -fr public generated BioguideProfiles.zip BioguideProfiles images
+	rm -fr public avatars generated BioguideProfiles.zip BioguideProfiles images
 
 get_stonks:
-	mkdir -p public generated
+	mkdir -p avatars generated
 	lstrades -d > stonks.json
 	lstrades -m stonks.json > generated/profiles.rb
 
 load:
 	docker-compose exec web /critters/bin/load.rb
+
+
 
 start:
 	docker-compose up -d

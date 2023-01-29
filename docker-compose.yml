@@ -129,6 +129,23 @@ services:
   #     - external_network
   #     - internal_network
 
+
+  http:
+    restart: always
+    image: openresty/openresty
+    container_name: openresty
+    networks:
+      - external_network
+      - internal_network
+    ports:
+        - 443:443
+        - 80:80
+    volumes:
+        - ./nginx/tmp:/var/run/openresty
+        - ./nginx/conf.d:/etc/nginx/conf.d
+        - /etc/letsencrypt/:/etc/letsencrypt/
+        - ./nginx/lebase:/lebase
+
 networks:
   external_network:
   internal_network:

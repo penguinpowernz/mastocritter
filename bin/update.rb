@@ -7,8 +7,8 @@ loop do
   cursor = JSON.parse(File.read("/critters/cursor.json"))["cursor"]
   FileUtils.chdir "/critters" do
     system "/critters/bin/lstrades -d"
-    system "/critters/bin/lstrades -mr > /critters/generated/meta.json"
-    system "/critters/bin/lstrades -mr -c #{cursor} > /critters/generated/trades.#{day}.json"
+    system "/critters/bin/lstrades -cm > /critters/generated/meta.json"
+    system "/critters/bin/lstrades --json -m -c #{cursor} > /critters/generated/trades.#{day}.json"
     system "/critters/bin/generate_biomap.rb > /critters/generated/bios.json"
   end
 

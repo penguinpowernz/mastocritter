@@ -26,5 +26,4 @@ Dir["BioguideProfiles/*.json"].each do |fn|
  #   system("ln -s ../#{srcimg} #{target}/#{name}.jpg")
     system("cp -l #{srcimg} #{target}/#{name}.jpg")
     puts "#{srcimg} => #{target}#{name}.jpg")
-
 end

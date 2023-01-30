@@ -9,7 +9,7 @@ loop do
     system "/critters/bin/lstrades -d"
     system "/critters/bin/lstrades -mr > /critters/generated/meta.json"
     system "/critters/bin/lstrades -mr -c #{cursor} > /critters/generated/trades.#{day}.json"
-    system "/critters/bin/biomap.rb > /critters/generated/bios.json"
+    system "/critters/bin/generate_biomap.rb > /critters/generated/bios.json"
   end
 
   require "/critters/bin/load_accounts"

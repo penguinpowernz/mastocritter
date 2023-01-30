@@ -4,6 +4,7 @@ require 'json'
 
 states = JSON.parse(File.read("states_hash.json"))
 
+map = {}
 
 Dir["BioguideProfiles/*.json"].each do |fn|    
   profile = JSON.parse(File.read(fn))
@@ -17,8 +18,9 @@ Dir["BioguideProfiles/*.json"].each do |fn|
   fname = fname.gsub(/'/,"@'").split(",").first
   lname = lname.gsub(/'/,"@'").split(",").first
 
+  memorial = false
   if profile["deathDate"]
-    puts %q[Account.where("display_name LIKE '%%%s%%%s%%'").first.tap {|a| a.memorial = true }.save rescue nil] % [fname, lname]
+    memorial = true
   end
 
   job = profile["jobPositions"].last
@@ -31,7 +33,16 @@ Dir["BioguideProfiles/*.json"].each do |fn|
   stateCode = job["congressAffiliation"]["represents"]["regionCode"] rescue ""
   state = states[stateCode]
 
-  note = "Mock account of %s for %s." % [pos, state]
-  puts %q[Account.where("display_name LIKE '%%%s%%%s%%'").first.tap {|a| a.note = "%s"; a.display_name = "%s" }.save rescue nil] % [fname, lname, note, dname]
-
+  username = (fname+"_"+lname).downcase
+  map[username] = {
+    position: pos,
+    state: state,
+    display_name: dname,
+    fname: fname,
+    lname: lname,
+    id: id,
+    memorial: memorial
+  }
 end
+
+puts map.to_json

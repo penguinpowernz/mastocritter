@@ -3,7 +3,7 @@ all: profiles avatars
 
 avatars: get_images
 	mkdir -p avatars generated
-	bin/avatars.rb > generated/avatars.rb
+	bin/avatars.rb
 
 get_images:
 	git clone https://github.com/unitedstates/images || true
@@ -17,15 +17,11 @@ dp:
 clean:
 	rm -fr public avatars generated BioguideProfiles.zip BioguideProfiles images
 
-get_stonks:
-	mkdir -p avatars generated
-	lstrades -d > stonks.json
-	lstrades -m stonks.json > generated/profiles.rb
+download_lstrades:
+	curl -sSL https://github.com/penguinpowernz/stonkcritter/releases/download/v2.1.0/lstrades.amd64 -o bin/lstrades
+	chmod +x bin/lstrades
 
-load:
-	docker-compose exec web /critters/bin/load.rb
-
-
+setup: download_lstrades download_profiles avatars
 
 start:
 	docker-compose up -d

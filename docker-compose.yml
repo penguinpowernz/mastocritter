@@ -143,6 +143,23 @@ services:
         - /etc/letsencrypt/:/etc/letsencrypt/
         - ./nginx/lebase:/lebase
 
+  update:
+    image: tootsuite/mastodon:v3.5.2
+    env_file: .env.production
+    command: /critters/bin/load.rb
+    networks:
+      - external_network
+      - internal_network
+    depends_on:
+      - db
+      - redis
+      # - es
+    volumes:
+      - ./public/system:/mastodon/public/system
+      - ./avatars:/mastodon/public/avatars/original
+      - ./:/critters
+
+
 networks:
   external_network:
   internal_network:

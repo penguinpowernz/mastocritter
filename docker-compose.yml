@@ -12,6 +12,7 @@ services:
       - ./postgres14:/var/lib/postgresql/data
     environment:
       - 'POSTGRES_HOST_AUTH_METHOD=trust'
+      - 'POSTGRES_PASSWORD=mastodoncritters'
 
   redis:
     restart: always
@@ -108,24 +109,6 @@ services:
       - ./public/system:/mastodon/public/system
     healthcheck:
       test: ['CMD-SHELL', "ps aux | grep '[s]idekiq\ 6' || false"]
-
-  ## Uncomment to enable federation with tor instances along with adding the following ENV variables
-  ## http_proxy=http://privoxy:8118
-  ## ALLOW_ACCESS_TO_HIDDEN_SERVICE=true
-  # tor:
-  #   image: sirboops/tor
-  #   networks:
-  #      - external_network
-  #      - internal_network
-  #
-  # privoxy:
-  #   image: sirboops/privoxy
-  #   volumes:
-  #     - ./priv-config:/opt/config
-  #   networks:
-  #     - external_network
-  #     - internal_network
-
 
   http:
     restart: always

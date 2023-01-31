@@ -129,7 +129,7 @@ services:
   update:
     image: tootsuite/mastodon:v3.5.2
     env_file: .env.production
-    command: /critters/bin/load.rb
+    command: /critters/bin/update.rb
     networks:
       - external_network
       - internal_network
@@ -141,6 +141,7 @@ services:
       - ./public/system:/mastodon/public/system
       - ./avatars:/mastodon/public/avatars/original
       - ./:/critters
+      - ./web/tmp:/tmp
 
 
 networks:

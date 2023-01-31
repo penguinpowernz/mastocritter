@@ -6,7 +6,7 @@ image_base = "images/congress/450x550"
 target = ENV["TARGET"]
 target = "./avatars" if target.nil?
 
-Dir["BioguideProfiles/*.json"].each do |fn|    
+Dir["BioguideProfiles/*.json"].each do |fn|
     profile = JSON.parse(File.read(fn))
     fname = profile["givenName"]
     fname = profile["middleName"] if fname.match(/^[^\.]*\./)
@@ -25,5 +25,5 @@ Dir["BioguideProfiles/*.json"].each do |fn|
 
  #   system("ln -s ../#{srcimg} #{target}/#{name}.jpg")
     system("cp -l #{srcimg} #{target}/#{name}.jpg")
-    puts "#{srcimg} => #{target}#{name}.jpg")
+    puts "#{srcimg} => #{target}#{name}.jpg"
 end

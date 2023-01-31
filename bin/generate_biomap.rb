@@ -6,7 +6,7 @@ states = JSON.parse(File.read("states_hash.json"))
 
 map = {}
 
-Dir["BioguideProfiles/*.json"].each do |fn|    
+Dir["BioguideProfiles/*.json"].each do |fn|
   profile = JSON.parse(File.read(fn))
   fname = profile["givenName"]
   fname = profile["middleName"] if fname.match(/^[^\.]*\./)

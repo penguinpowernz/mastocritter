@@ -3,7 +3,7 @@ all: profiles avatars
 
 avatars: get_images
 	mkdir -p avatars generated
-	bin/avatars.rb
+	bin/generate_avatar_files.rb
 
 get_images:
 	git clone https://github.com/unitedstates/images || true

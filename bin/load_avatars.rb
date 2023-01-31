@@ -12,6 +12,6 @@ Account.where(avatar_file_name: nil).all.each do |a|
     )
     a.update(avatar: uf)
   rescue => e
-    Rails.logger.error("failed to update avatar for #{a.username}: #{e.msg}")
+    Rails.logger.error("failed to update avatar for #{a.username}: #{e.message}")
   end
 end

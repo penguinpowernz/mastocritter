@@ -13,6 +13,12 @@ metas = JSON.parse(File.read("/critters/generated/meta.json"), symbolize_names: 
 
 default_bio = {position: "??", state: "??", memorial: false}
 
+# try different methods to resolve bio
+def resolve_bio(bios, username)
+  _u = username.to_s.gsub(/_[a-z]_/, '_')
+  return bios[_u]
+end
+
 metas.each do |username, meta|
   bio = bios[username]
   bio = resolve_bio(bios, username) if bio.nil?
@@ -22,10 +28,30 @@ metas.each do |username, meta|
   begin
     a = Account.find_by!(username: username)
   rescue
-    a = Account.create(
+    a = Account.new(
       username: username,
       display_name: meta[:name],
+      discoverable: true
     )
+
+    if a.display_name.size > 29 && bio.has_key?(:display_name)
+      a.display_name = bio[:display_name]
+    end
+    
+    a.display_name = a.display_name.split("")[0..29].join("")
+    a.save!
+
+    a.create_user(
+      email: "#{username}@#{ENV['LOCAL_DOMAIN']}",
+      password: SecureRandom.hex(32),
+      agreement: true,
+      confirmed_at: Time.now
+    )
+
+    a.user.approved = true
+    a.user.save
+
+    Rails.logger.info("created account #{username}")
   end
 
   a.memorial = bio[:memorial]
@@ -39,8 +65,3 @@ metas.each do |username, meta|
   a.save
 end
 
-# try different methods to resolve bio
-def resolve_bio(bios, username)
-  _u = username.gsub(/_[a-z]_/, '_')
-  return bios[_u]
-end

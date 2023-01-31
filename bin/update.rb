@@ -6,10 +6,10 @@ loop do
   day = Time.now.strftime("%F")
   cursor = JSON.parse(File.read("/critters/cursor.json"))["cursor"]
   FileUtils.chdir "/critters" do
-    system "/critters/bin/lstrades -d"
-    system "/critters/bin/lstrades -cm > /critters/generated/meta.json"
-    system "/critters/bin/lstrades --json -m -c #{cursor} > /critters/generated/trades.#{day}.json"
-    system "/critters/bin/generate_biomap.rb > /critters/generated/bios.json"
+    # system "/critters/bin/lstrades -d -f /critters/generated/stonks.json"
+    system "/critters/bin/lstrades -f /critters/generated/stonks.json -cm -c #{cursor} > /critters/generated/meta.json"
+    system "/critters/bin/lstrades -f /critters/generated/stonks.json --json -m -c #{cursor} > /critters/generated/current.#{day}.json"
+    #system "/critters/bin/generate_biomap.rb > /critters/generated/bios.json"
   end
 
   require "/critters/bin/load_accounts"

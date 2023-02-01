@@ -36,16 +36,18 @@ Status.new(account: a , text: "Hello world")
 Also having avatars is nice, so https://bioguides.congress.gov and https://github.com/unitedstates/images are used
 to create avatar images file structure. 
 
+I use the `lstrades` binary from https://github.com/penguinpowernz/stonkcritter
+
 The steps look something like this:
 
 1. download BioGuides and images
 1. rename the images to the congress critters name based on the BioGuides
-1. download the trade disclosure data
-1. generate a JSON doc of congress critters in that disclosure data, including some aggregate metadata
+1. download the trade disclosure data using `lstrades`
+1. generate a JSON doc of congress critters in that disclosure data, including some aggregate metadata using `lstrades`
 1. convert the BioGuides to a single JSON doc with just the info we need
 1. create any missing accounts, update existing accounts with the latest metadata
 1. add avatars to any accounts that were created
-1. convert trade disclosures from the JSON doc to status posts
+1. convert trade disclosures from the JSON doc to status posts using `lstrades`
 
 ## Problems
 
